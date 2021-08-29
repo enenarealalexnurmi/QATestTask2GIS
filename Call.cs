@@ -1,0 +1,10 @@
+﻿using System.Collections.Generic;
+
+namespace RegionsAPI.Data
+{
+    public class Call
+    {
+        public int Total { get; set; }
+        public List<Region> Items { get; set; }
+    }
+}

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.808.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegionsAPI", "RegionsAPI.csproj", "{8440B14B-9666-492B-8EB4-A075615EC246}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegionsAPI.Tests", "RegionsAPI.Tests\RegionsAPI.Tests.csproj", "{50AF804B-DCEC-4898-A1B0-41D15AAFBA42}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|anycpu = Debug|anycpu
+		Release|anycpu = Release|anycpu
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8440B14B-9666-492B-8EB4-A075615EC246}.Debug|anycpu.ActiveCfg = Debug|anycpu
+		{8440B14B-9666-492B-8EB4-A075615EC246}.Debug|anycpu.Build.0 = Debug|anycpu
+		{8440B14B-9666-492B-8EB4-A075615EC246}.Release|anycpu.ActiveCfg = Release|anycpu
+		{8440B14B-9666-492B-8EB4-A075615EC246}.Release|anycpu.Build.0 = Release|anycpu
+		{50AF804B-DCEC-4898-A1B0-41D15AAFBA42}.Debug|anycpu.ActiveCfg = Debug|Any CPU
+		{50AF804B-DCEC-4898-A1B0-41D15AAFBA42}.Debug|anycpu.Build.0 = Debug|Any CPU
+		{50AF804B-DCEC-4898-A1B0-41D15AAFBA42}.Release|anycpu.ActiveCfg = Release|Any CPU
+		{50AF804B-DCEC-4898-A1B0-41D15AAFBA42}.Release|anycpu.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A47DA50C-5B1B-462F-B622-7D29D2AF5776}
+	EndGlobalSection
+EndGlobal
