@@ -1,6 +1,7 @@
 ﻿using RegionsAPI.Data;
 using RestSharp;
 using RestSharp.Serializers.Utf8Json;
+using System.Net;
 
 namespace RegionsAPI.User
 {
@@ -10,33 +11,34 @@ namespace RegionsAPI.User
         readonly IRestClient _client;
         private string _lastQuery;
         private int _page;
+        public string ErrorMessage { get; set; }
+        public ResponseStatus RespStatus { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
         public RegionsAPIUser()
         {
             _client = new RestClient(BaseUrl);
             _client.UseUtf8Json();
-            _page = 0;
+            _page = 1;
         }
         private T Execute<T>(RestRequest request) where T : new()
         {
             var response = _client.Execute<T>(request);
-            //if (response.ErrorException != null)
-            //{
-            //    const string message = "Error retrieving response.  Check inner details for more info.";
-            //    var twilioException = new Exception(message, response.ErrorException);
-            //    throw twilioException;
-            //}
+            ErrorMessage = response.ErrorMessage;
+            StatusCode = response.StatusCode;
+            RespStatus = response.ResponseStatus;
             return response.Data;
         }
         public Call GetCall(string Query)
         {
             var request = new RestRequest(Query);
             _lastQuery = Query;
-            _page = 0;
+            _page = 1;
             return Execute<Call>(request);
         }
         public Call NextPage()
         {
-            var request = new RestRequest(_lastQuery + string.Format("&page={0}", ++_page));
+            char typeAdd = _lastQuery == "" ? '?' : '&';
+            var request = new RestRequest(_lastQuery + string.Format("{0}page={1}", typeAdd, ++_page));
             return Execute<Call>(request);
         }
     }

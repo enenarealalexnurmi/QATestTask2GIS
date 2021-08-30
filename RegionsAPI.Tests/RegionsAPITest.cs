@@ -1,8 +1,8 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 using RegionsAPI.Data;
 using RegionsAPI.User;
 using System;
-using System.Collections.ObjectModel;
 
 namespace RegionsAPI.Tests
 {
@@ -46,7 +46,6 @@ namespace RegionsAPI.Tests
         public void CountryCode_CorrectValuesCountryCode_ExpectedAllItemsHasOnlyInputValue(string value)
         {
             var call = _regionsAPIUser.GetCall(string.Format("?country_code={0}", value));
-
             while (call.Items.ToArray().Length != 0)
             {
                 call.Items.ForEach(delegate (Region region)
@@ -61,48 +60,34 @@ namespace RegionsAPI.Tests
         {
             var call = _regionsAPIUser.GetCall("");
             int expected = call.Total;
+            List<Region> actualUnique = new List<Region> { };
 
             while (call.Items.ToArray().Length != 0)
             {
-                //AddUnique
+                call.Items.ForEach(delegate (Region region)
+                {
+                    if (!actualUnique.Contains(region))
+                    {
+                        actualUnique.Add(region);
+                    }
+                });
+                call = _regionsAPIUser.NextPage();
             }
-            Assert.That(AddUnique.Length, Is.EqualTo(expected));
+            Assert.That(actualUnique.ToArray().Length, Is.EqualTo(expected));
         }
-        [Test]
-        public void FuzzySearch_BruteForceValues_ExpectedAllReturnedItemsHasValue()
-        {
-            while (/*Has*/)
-            {
-                var call = _regionsAPIUser.GetCall(string.Format("?q={0}", searchString))
 
-                Assert.That
-            }
-        }
         [Test]
         [TestCase("-1")]
         [TestCase("0")]
         [TestCase("a")]
         [TestCase("1a")]
-        [TestCase("1000000000000000")]
         [TestCase("1+1")]
-        [TestCase("1&page=2")]
         public void Page_IncorrectValues_ExpectedErrorMessage(string value)
         {
+            var call = _regionsAPIUser.GetCall(string.Format("?page={0}", value));
 
-        }
-        [Test]
-        [TestCase("&page=2")]
-        [TestCase("&page=a")]
-        [TestCase("&page=0")]
-        [TestCase("&page_size=-1")]
-        [TestCase("&page_size=5")]
-        [TestCase("country_code=kz")]
-        [TestCase("country_code=kg")]
-        [TestCase("country_code=ru")]
-        [TestCase("country_code=cz")]
-        public void FuzzySearch_AnotherQueryParametrs_ExpectedIgnoringAnotherParametrs()
-        {
-
+            Assert.That(_regionsAPIUser.StatusCode.ToString(), Is.EqualTo("OK"));
+            Assert.That(call.Error.Message, !Is.Empty);
         }
         [Test]
         [TestCase("a")]
@@ -110,14 +95,43 @@ namespace RegionsAPI.Tests
         [TestCase("")]
         public void FuzzySearch_IncorrectValues_ExpectedErrorMessage(string value)
         {
+            var call = _regionsAPIUser.GetCall(string.Format("?page={0}", value));
 
+            Assert.That(_regionsAPIUser.StatusCode.ToString(), Is.EqualTo("OK"));
+            Assert.That(call.Error.Message, !Is.Empty);
         }
         [Test]
         [TestCase("1")]
         [TestCase("-1")]
         public void PageSize_IncorrectValues_ExpectedErrorMessage(string value)
         {
+            var call = _regionsAPIUser.GetCall(string.Format("?page={0}", value));
 
+            Assert.That(_regionsAPIUser.StatusCode.ToString(), Is.EqualTo("OK"));
+            Assert.That(call.Error.Message, !Is.Empty);
         }
+//Bad, very bad idea.
+        //[Test, TestCaseSource("GenerateThreeCharSequence")]
+        //[Ignore("Too many tests")]
+        //public void FuzzySearch_BruteForceValues_ExpectedAllReturnedItemsHasValue(string searchString)
+        //{
+        //    var call = _regionsAPIUser.GetCall(string.Format("?q={0}", searchString));
+        //    if (call.Items.ToArray().Length != 0)
+        //    {
+        //        call.Items.ForEach(delegate (Region region)
+        //        {
+        //            Assert.That(region.Name.ToLower().Contains(searchString), Is.True);
+        //        });
+        //    }
+        //}
+        //private static string[] GenerateThreeCharSequence()
+        //{
+        //    string alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+        //    var q = alphabet.Select(x => x.ToString());
+        //    int size = 3;
+        //    for (int i = 1; i < size; ++i)
+        //        q = q.SelectMany(x => alphabet, (x, y) => x + y);
+        //    return q.ToArray();
+        //}
     }
 }
