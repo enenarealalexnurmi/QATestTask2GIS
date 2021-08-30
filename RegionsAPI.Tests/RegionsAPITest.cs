@@ -59,6 +59,64 @@ namespace RegionsAPI.Tests
         [Test]
         public void Total_CountingUniqueItems_ExpectedTotalEqualCountUniqueItems()
         {
+            var call = _regionsAPIUser.GetCall("");
+            int expected = call.Total;
+
+            while (call.Items.ToArray().Length != 0)
+            {
+                //AddUnique
+            }
+            Assert.That(AddUnique.Length, Is.EqualTo(expected));
+        }
+        [Test]
+        public void FuzzySearch_BruteForceValues_ExpectedAllReturnedItemsHasValue()
+        {
+            while (/*Has*/)
+            {
+                var call = _regionsAPIUser.GetCall(string.Format("?q={0}", searchString))
+
+                Assert.That
+            }
+        }
+        [Test]
+        [TestCase("-1")]
+        [TestCase("0")]
+        [TestCase("a")]
+        [TestCase("1a")]
+        [TestCase("1000000000000000")]
+        [TestCase("1+1")]
+        [TestCase("1&page=2")]
+        public void Page_IncorrectValues_ExpectedErrorMessage(string value)
+        {
+
+        }
+        [Test]
+        [TestCase("&page=2")]
+        [TestCase("&page=a")]
+        [TestCase("&page=0")]
+        [TestCase("&page_size=-1")]
+        [TestCase("&page_size=5")]
+        [TestCase("country_code=kz")]
+        [TestCase("country_code=kg")]
+        [TestCase("country_code=ru")]
+        [TestCase("country_code=cz")]
+        public void FuzzySearch_AnotherQueryParametrs_ExpectedIgnoringAnotherParametrs()
+        {
+
+        }
+        [Test]
+        [TestCase("a")]
+        [TestCase("aa")]
+        [TestCase("")]
+        public void FuzzySearch_IncorrectValues_ExpectedErrorMessage(string value)
+        {
+
+        }
+        [Test]
+        [TestCase("1")]
+        [TestCase("-1")]
+        public void PageSize_IncorrectValues_ExpectedErrorMessage(string value)
+        {
 
         }
     }
